@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
@@ -10,12 +9,16 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Define the root folder and database file paths for local fallback
-const DB_DIR = path.join(process.cwd(), "data");
+const DB_DIR = process.env.VERCEL ? "/tmp" : path.join(process.cwd(), "data");
 const DB_FILE = path.join(DB_DIR, "db.json");
 
 // Ensure data directory exists
-if (!fs.existsSync(DB_DIR)) {
-  fs.mkdirSync(DB_DIR, { recursive: true });
+try {
+  if (!fs.existsSync(DB_DIR)) {
+    fs.mkdirSync(DB_DIR, { recursive: true });
+  }
+} catch (e) {
+  console.warn("Unable to create local DB folder, ignoring if in memory/Supabase:", e);
 }
 
 // Supabase client initialization
@@ -1156,14 +1159,18 @@ if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
   const PORT = Number(process.env.PORT) || 3000;
   
   if (process.env.NODE_ENV !== "production") {
-    createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    }).then(vite => {
-      app.use(vite.middlewares);
-      app.listen(PORT, "0.0.0.0", () => {
-        console.log(`Development server running on http://localhost:${PORT}`);
+    import("vite").then(({ createServer: createViteServer }) => {
+      createViteServer({
+        server: { middlewareMode: true },
+        appType: "spa",
+      }).then(vite => {
+        app.use(vite.middlewares);
+        app.listen(PORT, "0.0.0.0", () => {
+          console.log(`Development server running on http://localhost:${PORT}`);
+        });
       });
+    }).catch(err => {
+      console.error("Failed to load Vite server dynamically:", err);
     });
   } else {
     const distPath = path.join(process.cwd(), "dist");
