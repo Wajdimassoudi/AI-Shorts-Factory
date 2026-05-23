@@ -1,0 +1,8 @@
+{
+  "name": "AI Shorts Factory",
+  "description": "A private automated AI content dashboard to generate, manage, and schedule viral short-form videos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

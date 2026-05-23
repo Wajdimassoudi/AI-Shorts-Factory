@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-neon-purple: #8b5cf6;
+  --color-neon-dark: #0a0118;
+  --color-neon-accent: #d946ef;
+}
+
+/* Base resets & dark mode scrollbar styling */
+body {
+  background-color: #050505;
+  color: #E0E0E0;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a855f7;
+}
+
+/* Custom Neon Glow Utilities */
+.neon-glow-purple {
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+}
+
+.neon-glow-accent {
+  box-shadow: 0 0 15px rgba(217, 70, 239, 0.1);
+  border: 1px solid rgba(217, 70, 239, 0.15);
+}
+
+.neon-text-purple {
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
+}
+
+.neon-text-accent {
+  text-shadow: 0 0 8px rgba(217, 70, 239, 0.6);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
